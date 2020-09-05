@@ -1,8 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
+
 
   <ItemGroup>
-    <ProjectReference Include="Ode.Data\Ode.Data.csproj" />
+    <ProjectReference Include="..\Ode.Core\Ode.Core.csproj" />
   </ItemGroup>
+
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
