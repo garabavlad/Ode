@@ -1,16 +1,17 @@
 using Ode.Core;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ode.Data
 {
     public interface IRestaurantData
     {
-        IEnumerable<Restaurant> GetAll();
+        IEnumerable<Restaurant> GetRestaurantsByName(string Name);
     }
 
     public class InMemoryRestaurantData : IRestaurantData
     {
-        public List<Restaurant> restaurants;
+        List<Restaurant> restaurants;
         public InMemoryRestaurantData()
         {
             restaurants = new List<Restaurant>()
@@ -20,9 +21,12 @@ namespace Ode.Data
                 new Restaurant {Id=3, Name="La Costa", Location="Texas", Cuisine=CuisineType.Mexican},
             };
         }
-        public IEnumerable<Restaurant> GetAll()
+        public IEnumerable<Restaurant> GetRestaurantsByName(string Name = null)
         {
             return from r in restaurants
+                where string.IsNullOrEmpty(Name) 
+                || r.Name.ToLower().Contains(Name.ToLower())
+                || r.Location.ToLower().Contains(Name.ToLower())
                 orderby r.Name
                 select r;
         }

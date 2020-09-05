@@ -5,22 +5,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
+using Ode.Data;
+using Ode.Core;
 
 namespace ode.Pages.Restaurants
 {
     public class RestaurantsListModel : PageModel
     {
         private readonly IConfiguration config;
+        private readonly IRestaurantData restaurantData;
 
-        public string Message { get; set; }
+        public string Search { get; set; }
+        public IEnumerable<Restaurant> Restaurants { get; set; }
 
-        public RestaurantsListModel(IConfiguration config)
+        public RestaurantsListModel(IConfiguration config, 
+                                    IRestaurantData restaurantData)
         {
+            this.restaurantData = restaurantData;
             this.config = config;
         }
-        public void OnGet()
+        public void OnGet(string search)
         {
-            Message = config["message"];
+            Search = search;
+            Restaurants = restaurantData.GetRestaurantsByName(search);
         }
     }
 }
